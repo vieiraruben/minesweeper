@@ -58,23 +58,47 @@ def show(H, W):
 
 continue_game = True
 while continue_game == True:
-    input_H = int(input("choissisez la ligne de la case sur laquel vous voulez agir")) - 1
-    input_W = int(input("choissisez la Colonne de la case sur laquel vous voulez agir")) - 1
-    input_type = input("choose the action to perform, type uncover, flag or unflag")
+    input_H = 0
+    input_W = 0
+    while True:
+        input_H = int(input("Pick your square. Enter line number: "))-1
+        if 0 <= input_H > height:
+            print("Invalid line")
+        else:
+            break
+    
+    while True:
+        print("You've chosen line ", input_H, ".", sep="", end=" ")
+            input_W = int(input("Enter column number: "))-1
+    if 0 <= input_W > width:
+        print("Invalid column")
+    else:
+        break
+
+    
+    while True:
+        print("You've chosen square ", input_H, " x ", input_W, ".", sep="", end=" ")
+        input_type = input("\nPress C to clear\nPress F to flag\nPress U to unflag")
+        
+        if input_type != F or input_type != f or input_type != C or input_type != c:
+            (print("Please enter a valid command"))
+        else:
+            break
+    
     input_result = base_table[input_H][input_W]
 
 # Cas ou on uncover une case sans mines adjacentes
     if input_result == 0 and input_type == "uncover":
         show (input_H, input_W)
-    elif (input_result == "m" or input_result == "mflag") and input_type == "uncover":
+    elif (input_result == "m" or input_result == "mflag") and input_type == "C":
         game_board[input_H][input_W] = "BOOM"
-    elif input_result == "Flaged" and input_type == "uncover":
+    elif input_result == "Flaged" and input_type == "C":
         game_board[input_H][input_W] = input_result
-    elif input_type == "flag":
+    elif input_type == "F":
         game_board[input_H][input_W] = "F"
         if base_table[input_H][input_W] == "m":
             base_table[input_H][input_W] = "mflag"
-    elif input_type == "unflag":
+    elif input_type == "U":
         game_board[input_H][input_W] = "*"
         if input_result == "mflag":
             base_table[input_H][input_W] = "m"
